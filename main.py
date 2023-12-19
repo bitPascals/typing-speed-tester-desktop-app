@@ -12,6 +12,9 @@ for paragraph in typing_sample_data:
 speed_calc = SpeedCalc(new_paragraph)
 ts_ui = TypingSpeedUI(speed_calc)
 
+
+
+
 # print(new_paragraph)
 
 

@@ -143,6 +143,7 @@ class TypingSpeedUI:
             # For shift, alt and ctrl keys
             if not event.keycode in [16, 17, 18]:
                 self.running = True
+                self.select_button.configure(state=ACTIVE)
                 thread = threading.Thread(target=self.time_thread)
                 thread.start()
         if not self.text_label.cget("text").startswith(self.typed_text.get()):
@@ -162,7 +163,7 @@ class TypingSpeedUI:
             self.counter += 0.1
             self.cps = len(self.typed_text.get())/self.counter
             self.cpm = self.cps * 60
-            self.wps = len(self.typed_text.get().split(" "))/self.counter
+            self.wps = len(self.typed_text.get())/self.counter
             self.wpm = self.wps * 60
 
             self.text1_label.config(text="WPM \n{:.2f}".format(self.wpm))
@@ -172,13 +173,7 @@ class TypingSpeedUI:
     def reset(self):
         self.running = False
         self.counter = 0
-        self.text1_label.config(text="WPM \n0.00")
-        self.text2_label.config(text="CPM \n0.00")
-        self.text3_label.config(text="CPS \n0.00")
 
-        sample_paragraph_text = self.speed_calc.display_sample_paragraph()
-        self.text_label.config(text=random.choice(sample_paragraph_text))
-        self.typed_text.delete(0, END)
         if self.cpm > self.cpm_high_score:
             self.cpm_high_score = self.cpm
         if self.wpm > self.wpm_high_score:
@@ -187,7 +182,17 @@ class TypingSpeedUI:
                 data.write(f"{self.wpm_high_score}")
             with open("cpm_highscore.txt", mode="w") as data:
                 data.write(f"{self.cpm_high_score}")
+
+        self.text1_label.config(text="WPM \n0.00")
+        self.text2_label.config(text="CPM \n0.00")
+        self.text3_label.config(text="CPS \n0.00")
+
+        sample_paragraph_text = self.speed_calc.display_sample_paragraph()
+        self.text_label.config(text=random.choice(sample_paragraph_text))
+        self.typed_text.delete(0, END)
+
         self.update_score_board()
+        self.select_button.configure(state=DISABLED)
 
     def update_score_board(self):
         self.text4_label.config(text=f"Highest Score\nWPM: {self.wpm_high_score:.2f} "
