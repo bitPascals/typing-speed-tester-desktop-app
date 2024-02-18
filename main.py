@@ -15,11 +15,6 @@ ts_ui = TypingSpeedUI(speed_calc)
 
 
 
-# print(new_paragraph)
-
-
-
-
 
 
 

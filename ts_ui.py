@@ -128,6 +128,7 @@ class TypingSpeedUI:
 
         self.window.mainloop()
 
+
     def display_typed_word_text(self):
         self.speed_calc.display_type_words()
         # self.typed_text = Entry()
